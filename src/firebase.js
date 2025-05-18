@@ -17,14 +17,15 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db =getFirestore(app);
 
-const signup = async (name, email, password)=>{
+const signup = async (username, email, password)=>{
     try{
         
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
         await addDoc(collection(db, "user"), {
             uid : user.uid,
-            name,
+            username,
+            avatar: imgURL,
             authProvider: "local",
             email,
         })
@@ -48,5 +49,7 @@ const login = async (email, password) => {
 const logout =()=> {
     signOut(auth);
 }
+
+
 
 export {auth, db, login, signup, logout};
